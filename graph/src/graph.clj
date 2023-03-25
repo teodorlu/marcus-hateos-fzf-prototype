@@ -1,5 +1,7 @@
 (ns graph
-  (:require [org.httpkit.server :as httpkit]))
+  (:require
+   [org.httpkit.server :as httpkit]
+   [cheshire.core :as json]))
 
 ;; graph
 
@@ -21,7 +23,7 @@
 (defn handle [req]
   {:status 200
    :headers {"Content-Type" "application/json"}
-   :body "{}"})
+   :body (json/generate-string {:hei "du"})})
 
 ;; REPL helpers / boilerplate
 
