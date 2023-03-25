@@ -18,7 +18,7 @@
                    :title "Unicad Discovery: build 1"
                    :links [{:uri "/apps/abc"}
                            {:uri "/deployments/def"}]}})
-;; Serve the graph
+;; Serve & browse the graph
 
 (defn links [graph]
   (for [k (keys graph) ]
