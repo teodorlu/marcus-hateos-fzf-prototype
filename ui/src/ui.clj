@@ -56,6 +56,4 @@
                    )
         quit? (fn [loc] (= :quit loc))])
 
-  (pprint (graph-get "/"))
-
-  (prn "browseEE"))
+  (pprint (graph-get "/")))
