@@ -34,7 +34,13 @@
    :headers {"Content-Type" "application/json"}
    :body (json/generate-string body)})
 
+(defonce x (atom nil))
+
+@x
+
+
 (defn handle [{:keys [uri] :as req}]
+  (reset! x req)
   (cond
     (= uri "/")
     (ok {:uri "/"
