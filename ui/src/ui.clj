@@ -6,7 +6,8 @@
    [clojure.string :as str]
    [cheshire.core :as json]
    [clojure.walk :as walk]
-   [babashka.http-client :as http])
+   [babashka.http-client :as http]
+   [clojure.pprint :as pprint])
   )
 
 (defn fzf
@@ -43,7 +44,7 @@
       (when-not (quit? next-loc)
         (recur next-loc)))))
 
-(defn grahph-get [{:keys [uri]}]
+(defn graph-get [{:keys [uri]}]
   (http/get (str "http://localhost:7300" uri)))
 
 (defn browse [opts]
@@ -54,9 +55,10 @@
                    )
         quit? (fn [loc] (= :quit loc))])
 
-  #_
-  (prn (get "/"))
-  (let [response (grahph-get "/")]
-    (prn (json/parse-string (:body response) true)))
+  (pprint/pprint (json/parse-string (:body (http/get "http://localhost:7300/"))
+                                    true))
+
+  (pprint/pprint (json/parse-string (:body (http/get "http://localhost:7300/apps/abc"))
+                                    true))
 
   (prn "browseEE"))
