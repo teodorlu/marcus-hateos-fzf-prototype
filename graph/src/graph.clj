@@ -20,7 +20,8 @@
 
 (defn handle [req]
   {:status 200
-   :body "ok"})
+   :headers {"Content-Type" "application/json"}
+   :body "{}"})
 
 ;; REPL helpers / boilerplate
 
