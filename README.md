@@ -2,7 +2,7 @@
 
 ## Prerequesites
 
-Please install `fzf`, `bb` and `clj`.
+Please install `fzf`, `bb` and `clj` and a Java version (latest LTS is a good choice).
 
 ## Usage
 
@@ -10,6 +10,6 @@ First, start the graph provider.
 
     (cd graph/ && clj -X:serve)
 
-Then, run the UI from a different terminal:
+Then run the UI in a different terminal
 
-    (cd ui/ && bb -X:tui)
+    (cd ui/ && bb -x ui/browse)

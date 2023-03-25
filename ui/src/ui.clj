@@ -49,10 +49,13 @@
 (defn pprint-str [x]
   (with-out-str (pprint x)))
 
+(defn prepend-quit [xs]
+  (into [:quit] xs))
+
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn browse [_opts]
   (let [start {:uri "/"}
         show (comp less pprint-str graph-get :uri)
-        next-loc (comp :links graph-get :uri)
+        next-loc (comp prepend-quit :links graph-get :uri)
         quit? (fn [loc] (= :quit loc))]
     (walk-show-loop-with-exit start show next-loc quit?)))

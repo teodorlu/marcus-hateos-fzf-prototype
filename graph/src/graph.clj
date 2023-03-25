@@ -58,8 +58,8 @@
 (defonce server (atom nil))
 (def port 7300)
 (defn stop-server [stop-fn] (when stop-fn (stop-fn)) nil)
-(defn stop! [] (swap! server stop-server))
-(defn start! [_opts]
+(defn stop [] (swap! server stop-server))
+(defn start [_opts]
   (swap! server (fn [old-server]
                   (stop-server old-server)
                   (println (str "graph running: http://localhost:" port))
