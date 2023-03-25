@@ -5,25 +5,47 @@
 
 ;; graph
 
-{"/apps/abc" {:uri "/apps/abc"
-              :title "Unicad Discovery"
-              :links [{:uri "/deployments/def"}
-                      {:uri "/builds/123"}]}
- "/deployments/def" {:uri "/deployments/def"
-                     :title "Unicad Discovery: deployment 1"
-                     :links [{:uri "/apps/abc"}
-                             {:uri "/builds/123"}]}
- "/builds/123"  {:uri "/builds/123"
-                 :title "Unicad Discovery: build 1"
-                 :links [{:uri "/apps/abc"}
-                         {:uri "/deployments/def"}]}}
-
+(def graph
+  {"/apps/abc" {:uri "/apps/abc"
+                :title "Unicad Discovery"
+                :links [{:uri "/deployments/def"}
+                        {:uri "/builds/123"}]}
+   "/deployments/def" {:uri "/deployments/def"
+                       :title "Unicad Discovery: deployment 1"
+                       :links [{:uri "/apps/abc"}
+                               {:uri "/builds/123"}]}
+   "/builds/123"  {:uri "/builds/123"
+                   :title "Unicad Discovery: build 1"
+                   :links [{:uri "/apps/abc"}
+                           {:uri "/deployments/def"}]}})
 ;; Serve the graph
 
-(defn handle [req]
+(defn links [graph]
+  (for [k (keys graph) ]
+    {:uri k}))
+
+(defn ok [body]
   {:status 200
    :headers {"Content-Type" "application/json"}
-   :body (json/generate-string {:hei "du"})})
+   :body (json/generate-string body)})
+
+(defn not-found [body]
+  {:status 404
+   :headers {"Content-Type" "application/json"}
+   :body (json/generate-string body)})
+
+(defn handle [{:keys [uri] :as req}]
+  (cond
+    (= uri "/")
+    (ok {:uri "/"
+         :links (links graph)})
+
+    (contains? graph uri)
+    (ok (get graph uri))
+
+    :else
+    (not-found {:uri uri
+                :links (links graph)})))
 
 ;; REPL helpers / boilerplate
 
