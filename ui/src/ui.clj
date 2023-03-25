@@ -1,11 +1,9 @@
 (ns ui
   (:require
    [babashka.process :as process]
-   [babashka.cli :as cli]
    [clojure.edn :as edn]
    [clojure.string :as str]
    [cheshire.core :as json]
-   [clojure.walk :as walk]
    [babashka.http-client :as http]
    [clojure.pprint :as pprint :refer [pprint]]))
 
@@ -48,12 +46,13 @@
                                       {:throw false}))
                      true))
 
-(defn browse [opts]
-  (let [start {:uri "/"}
-        show (comp less pr-str)
-        next-loc (fn [loc]
-                   ;; ??
-                   )
-        quit? (fn [loc] (= :quit loc))])
+(defn pprint-str [x]
+  (with-out-str (pprint x)))
 
-  (pprint (graph-get "/")))
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
+(defn browse [_opts]
+  (let [start {:uri "/"}
+        show (comp less pprint-str graph-get :uri)
+        next-loc (comp :links graph-get :uri)
+        quit? (fn [loc] (= :quit loc))]
+    (walk-show-loop-with-exit start show next-loc quit?)))
