@@ -15,7 +15,7 @@ Please install `fzf`, `bb` and `clj` and a Java version (latest LTS is a good ch
 
 First, start the graph provider.
 
-    (cd graph/ && clj -X:serve)
+    (cd graph/ && clj -X graph/start)
 
 Then run the UI in a different terminal
 
